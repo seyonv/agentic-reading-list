@@ -27,6 +27,12 @@ export default function Home() {
           >
             Start here →
           </Link>
+          <Link
+            href="/principles"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[var(--border)] hover:bg-[var(--card)] transition-colors"
+          >
+            Principles →
+          </Link>
           <span className="text-[var(--muted)] text-xs font-mono">
             {sCount} S · {aCount} A · {bCount} B
           </span>

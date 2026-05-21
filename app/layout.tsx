@@ -67,6 +67,12 @@ export default function RootLayout({
               >
                 Start here
               </Link>
+              <Link
+                href="/principles"
+                className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+              >
+                Principles
+              </Link>
               <a
                 href="https://github.com/seyonv/agentic-reading-list"
                 target="_blank"
