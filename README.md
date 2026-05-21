@@ -2,7 +2,7 @@
 
 A curated, tiered reading list of **136 blog posts (2024–2026)** on building, deploying, and operating **agentic AI systems**.
 
-Live site: **[agentic-reading-list.vercel.app](https://agentic-reading-list.vercel.app)** _(updated after first deploy)_
+Live site: **[agentic-reading-list.vercel.app](https://agentic-reading-list.vercel.app)**
 
 ---
 
