@@ -1,6 +1,7 @@
 {
-  "name": "scrape_papers_to_read",
+  "name": "agentic-reading-list",
   "version": "0.1.0",
+  "description": "A curated, tiered reading list of blog posts on agentic AI systems",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +12,8 @@
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
