@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { marked } from "marked";
 import {
   getAllPosts,
   getPostBySlug,
   TIER_LABEL,
   TOPIC_LABEL,
 } from "@/lib/posts";
+import { getRichSummary } from "@/lib/summaries";
+import { ArticleScreenshot } from "@/components/article-screenshot";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -35,6 +38,11 @@ export default async function PostPage({
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const richSummary = getRichSummary(post.slug);
+  const richSummaryHtml = richSummary
+    ? marked.parse(richSummary, { async: false })
+    : null;
+
   return (
     <article className="mx-auto max-w-2xl px-4 sm:px-6 py-10">
       <Link
@@ -59,25 +67,51 @@ export default async function PostPage({
         {post.title}
       </h1>
 
-      <div className="text-sm text-[var(--muted)] mb-8 font-mono">
+      <div className="text-sm text-[var(--muted)] mb-6 font-mono">
         {post.source} · {post.yearMonth}
       </div>
 
-      <a
-        href={post.url}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity text-sm font-medium mb-10"
-      >
-        Read original ↗
-      </a>
+      <ArticleScreenshot
+        url={post.url}
+        title={post.title}
+        source={post.source}
+      />
 
-      <section className="mb-8">
-        <h2 className="text-xs uppercase tracking-wider text-[var(--muted)] mb-2">
-          Summary
-        </h2>
-        <p className="text-base leading-relaxed">{post.summary}</p>
-      </section>
+      <div className="flex flex-wrap items-center gap-3 mb-10">
+        <a
+          href={post.url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md bg-[var(--foreground)] text-[var(--background)] hover:opacity-90 transition-opacity text-sm font-medium"
+        >
+          Read original ↗
+        </a>
+        <Link
+          href={`/posts/${post.slug}/read`}
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-[var(--border)] hover:bg-[var(--card)] transition-colors text-sm font-medium"
+        >
+          Read in-app →
+        </Link>
+      </div>
+
+      {richSummaryHtml ? (
+        <section className="mb-12">
+          <h2 className="text-xs uppercase tracking-wider text-[var(--muted)] mb-3">
+            In-depth summary
+          </h2>
+          <div
+            className="reader-html"
+            dangerouslySetInnerHTML={{ __html: richSummaryHtml as string }}
+          />
+        </section>
+      ) : (
+        <section className="mb-8">
+          <h2 className="text-xs uppercase tracking-wider text-[var(--muted)] mb-2">
+            Summary
+          </h2>
+          <p className="text-base leading-relaxed">{post.summary}</p>
+        </section>
+      )}
 
       <section className="mb-12">
         <h2 className="text-xs uppercase tracking-wider text-[var(--muted)] mb-2">
